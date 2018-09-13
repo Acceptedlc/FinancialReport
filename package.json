@@ -1,0 +1,30 @@
+{
+  "name": "financial-report",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Acceptedlc/FinancialReport.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Acceptedlc/FinancialReport/issues"
+  },
+  "homepage": "https://github.com/Acceptedlc/FinancialReport#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.116",
+    "@types/node": "^10.9.4",
+    "ts-node": "^7.0.1"
+  },
+  "dependencies": {
+    "argv": "0.0.2",
+    "lodash": "^4.17.10",
+    "sqlite3": "^4.0.2",
+    "typeorm": "^0.2.7"
+  }
+}

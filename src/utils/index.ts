@@ -1,0 +1,1 @@
+export {getConfigByArgv} from "./argv-parser";
