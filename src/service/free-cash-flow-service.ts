@@ -11,7 +11,8 @@ export class FreeCashFlowService {
       let temp: FreeCashFlow = {
         value: thisYearFreeCash,
         rate: StatisticsUtis.growthRate(thisYearFreeCash, lastYearFreeCash)
-      }
+      };
+      result.push(temp);
     }
     return result;
   }
