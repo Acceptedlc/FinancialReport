@@ -8,14 +8,14 @@ const defaultConf: any = {
   db: {
     path: "/Users/lichao/financial_report.sqlite"
   },
-  csvFilePath: "/tmp/temp.vsc"
+  csvFilePath: "/tmp/temp.vsc",
+  corporationId: "股票编号"
 };
 
 let config: any = getConfigByArgv(defaultConf);
 
 
 async function run() {
-  console.log(config.db.path);
   await DaoHelper.InitConnection({
     type: "sqlite",
     database: config.db.path
@@ -61,7 +61,8 @@ function csvDataExtract(data: any): any {
   return {
     businessActivityCashFlowNetWorth,
     investingActivityCashOutflow,
-    deadline
+    deadline,
+    corporationId: config.corporationId
   };
 }
 

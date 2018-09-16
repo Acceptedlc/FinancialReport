@@ -13,10 +13,11 @@ export class CashFlowStatementDao {
   @Column("int")
   quarter: number;
 
+  @Column("varchar", {length: 30})
+  corporationId: string;
 
   @Column("double")//经营性活动现金净流入
   businessActivityCashFlowNetWorth: number;
-
 
   @Column("double")//投资活动现金流出
   investingActivityCashOutflow: number;
@@ -45,6 +46,7 @@ export class CashFlowStatementDaoHelper {
     cashFlow.investingActivityCashOutflow = data.investingActivityCashOutflow;
     cashFlow.year = data.year;
     cashFlow.quarter = data.quarter;
+    cashFlow.corporationId = data.corporationId;
     await getConnection().getRepository(CashFlowStatementDao).save(cashFlow);
   }
 }
@@ -59,6 +61,7 @@ ajv.addSchema({
   properties: {
     investingActivityCashOutflow: {type: "number"},
     businessActivityCashFlowNetWorth: {type: "number"},
+    corporationId: {type: "string"},
     year: {type: "number"},
     quarter: {type: "number"}
 
