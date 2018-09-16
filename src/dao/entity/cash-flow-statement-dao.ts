@@ -1,4 +1,4 @@
-import {Column, Entity, getRepository, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, getRepository, getConnection, PrimaryGeneratedColumn} from "typeorm";
 
 const moment = require("moment");
 
@@ -26,8 +26,11 @@ export class CashFlowStatementDao {
 
 export class CashFlowStatementDaoHelper {
 
-  static async insertByDeadline(data: any, deadline: string) {
-    moment(deadline, "YYYYMM")
+  static async InsertByDeadline(data: any, deadline: string) {
+    let quarter: number = moment(deadline, "YYYYMM").quarter();
+    let year: number = moment(deadline, "YYYYMM").year();
+    data = Object.assign({}, data, {year, quarter});
+    await CashFlowStatementDaoHelper.Insert(data);
   }
 
   static async Insert(data: any): Promise<void> {
@@ -42,8 +45,7 @@ export class CashFlowStatementDaoHelper {
     cashFlow.investingActivityCashOutflow = data.investingActivityCashOutflow;
     cashFlow.year = data.year;
     cashFlow.quarter = data.quarter;
-
-    await getRepository(CashFlowStatementDao).save(cashFlow);
+    await getConnection().getRepository(CashFlowStatementDao).save(cashFlow);
   }
 }
 
