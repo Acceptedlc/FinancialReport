@@ -1,4 +1,4 @@
-import {Column, Entity, getRepository, getConnection, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, getRepository, getConnection, PrimaryGeneratedColumn, Between} from "typeorm";
 
 const moment = require("moment");
 
@@ -34,7 +34,7 @@ export class CashFlowStatementDaoHelper {
     await CashFlowStatementDaoHelper.Insert(data);
   }
 
-  static async Insert(data: any): Promise<void> {
+  private static async Insert(data: any): Promise<void> {
     let validate = ajv.getSchema("insertData");
     let valid: boolean = validate(data);
     if (valid === false) {
@@ -49,6 +49,15 @@ export class CashFlowStatementDaoHelper {
     cashFlow.corporationId = data.corporationId;
     await getConnection().getRepository(CashFlowStatementDao).save(cashFlow);
   }
+
+
+  static async Query4FreeCashFlowService(corporationId: string, quarter: number, startYear: number, endYear: number): Promise<CashFlowStatementDao[]> {
+    return await getConnection().getRepository(CashFlowStatementDao).find({
+      where: {corporationId, quarter, year: Between(startYear, endYear)},
+      order: {year: "DESC"}
+    });
+  }
+
 }
 
 
@@ -67,3 +76,4 @@ ajv.addSchema({
 
   }
 }, "insertData");
+
