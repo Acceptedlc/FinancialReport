@@ -52,10 +52,19 @@ export class CashFlowStatementDaoHelper {
 
 
   static async Query4FreeCashFlowService(corporationId: string, quarter: number, startYear: number, endYear: number): Promise<CashFlowStatementDao[]> {
-    return await getConnection().getRepository(CashFlowStatementDao).find({
-      where: {corporationId, quarter, year: Between(startYear, endYear)},
-      order: {year: "DESC"}
-    });
+    return await getConnection()
+      .getRepository(CashFlowStatementDao)
+      .createQueryBuilder("cashFlowStatement")
+      .where(`
+         corporationId = '${corporationId}'
+          and 
+         quarter = ${quarter}
+          and
+         year >= ${startYear}
+          and 
+         year <= ${endYear} 
+      `)
+      .getMany();
   }
 
 }

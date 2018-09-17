@@ -7,19 +7,22 @@ export class FreeCashFlowService {
     let cashFlowStatementDaos: CashFlowStatementDao[] = await CashFlowStatementDaoHelper.Query4FreeCashFlowService(corporationId, quarter, startYear, endYear);
     for (let i = 0; i < cashFlowStatementDaos.length - 1; i++) {
       let thisYearFreeCash: number = cashFlowStatementDaos[i].businessActivityCashFlowNetWorth - cashFlowStatementDaos[i].investingActivityCashOutflow;
-      let lastYearFreeCash: number = cashFlowStatementDaos[i - 1].businessActivityCashFlowNetWorth - cashFlowStatementDaos[i - 1].investingActivityCashOutflow;
+      let lastYearFreeCash: number = cashFlowStatementDaos[i + 1].businessActivityCashFlowNetWorth - cashFlowStatementDaos[i + 1].investingActivityCashOutflow;
       let temp: FreeCashFlow = {
         value: thisYearFreeCash,
-        rate: StatisticsUtis.growthRate(thisYearFreeCash, lastYearFreeCash)
+        rate: StatisticsUtis.growthRate(thisYearFreeCash, lastYearFreeCash),
+        year: cashFlowStatementDaos[i].year,
+        quarter: cashFlowStatementDaos[i].quarter
       };
       result.push(temp);
     }
     return result;
   }
-
 }
 
 export interface FreeCashFlow {
   value: number,
-  rate: number
+  rate: number,
+  year: number,
+  quarter: number
 }

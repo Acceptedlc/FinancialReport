@@ -1,6 +1,6 @@
 export class StatisticsUtis {
   static growthRate(currentPeriod: number, basePeriod: number): number {
-    return (currentPeriod - basePeriod) / basePeriod;
+    return Math.round((currentPeriod - basePeriod) / basePeriod * 100);
   }
 
   static mean(data: number[]): number {
@@ -12,10 +12,11 @@ export class StatisticsUtis {
   static median(data: number[]): number {
     let sortData: number[] = data.sort();
     let size: number = data.length;
-    if (size % 2) {
-      return (sortData[size / 2] + sortData[size / 2 + 1]) / 2;
+    if (size % 2 === 0) {
+      return (sortData[Math.ceil(size / 2 - 1)] + sortData[Math.ceil(size / 2)]) / 2;
     } else {
-      return sortData[size / 2 + 1];
+
+      return sortData[Math.floor(size / 2)];
     }
   }
 }
